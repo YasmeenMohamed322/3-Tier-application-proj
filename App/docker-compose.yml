@@ -7,9 +7,13 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - mongo
+      - postgres
     environment:
-      - MONGO_URL=mongodb://mongo:27017/emergencyDB
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=emergencyDB
+      - DB_PORT=5432
 
   frontend:
     build: ./frontend
@@ -18,7 +22,18 @@ services:
     depends_on:
       - backend
 
-  mongo:
-    image: mongo
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: emergencyDB
     ports:
-      - "27017:27017"
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

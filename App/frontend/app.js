@@ -1,40 +1,38 @@
-const API = "http://localhost:5000/api/patients";
-
-async function loadPatients() {
-  const res = await fetch(API);
-  const data = await res.json();
-
-  document.getElementById("patients").innerHTML =
-    data.map(p => `
-      <div class="card">
-        <h3>${p.name}</h3>
-        <p>Age: ${p.age}</p>
-        <p>Condition: ${p.condition}</p>
-        <p>
-  Status:
-  <span class="status ${p.status.replace(" ", "-")}">
-    ${p.status}
-  </span>
-</p>
-      </div>
-    `).join("");
-}
+const API = "http://backend:5000/api/patients";
 
 async function addPatient() {
-  const patient = {
-    name: document.getElementById("name").value,
-    age: document.getElementById("age").value,
-    condition: document.getElementById("condition").value,
-    status: document.getElementById("status").value
-  };
+  const name = document.getElementById("name").value;
+  const age = document.getElementById("age").value;
+  const condition = document.getElementById("condition").value;
+  const status = document.getElementById("status").value;
 
   await fetch(API, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(patient)
+    body: JSON.stringify({ name, age, condition, status })
   });
 
-  alert("Patient added successfully!");
+  loadPatients();
+}
+
+async function loadPatients() {
+  try {
+    const res = await fetch(API);
+    const data = await res.json();
+
+    const container = document.getElementById("patients");
+    container.innerHTML = "";
+
+    data.forEach(p => {
+      container.innerHTML += `
+        <div>
+          <b>${p.name}</b> | ${p.age} | ${p.condition} | ${p.status}
+        </div>
+      `;
+    });
+  } catch (err) {
+    console.error("Backend not reachable:", err);
+  }
 }
 
 loadPatients();
