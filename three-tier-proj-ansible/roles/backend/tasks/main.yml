@@ -1,0 +1,17 @@
+---
+# tasks file for backend
+- name: copying backend to instance
+  copy:
+    src: /home/ansible/3-Tier-application-proj/App/backend/
+    dest: /home/ec2-user/project/backend/
+
+- name: copying the docker compose file for backend container
+  template:
+    src: templates/docker-compose.yml.j2
+    dest: /home/ec2-user/project/docker-compose.yml
+
+- name: running the compose file with building images
+  community.docker.docker_compose_v2:
+    project_src: /home/ec2-user/project/
+    build: "always"
+

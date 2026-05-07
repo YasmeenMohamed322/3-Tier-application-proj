@@ -1,0 +1,7 @@
+# group_vars/backend.yml
+#ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q ubuntu@<BASTION_PUBLIC_IP>"'
+db_host: postgres
+db_user: postgres
+db_password: postgres
+db_name: emergencyDB
+

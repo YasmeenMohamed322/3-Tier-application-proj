@@ -1,0 +1,25 @@
+---
+- name: Installing Docker
+  hosts: all
+  become: true
+  tasks:
+    - name: Importing basic setup role
+      import_role:
+        name: roles/basic-setup
+
+- name: deploying backend
+  hosts: backend
+  become: true
+  tasks:
+    - name: Importing backend role
+      import_role:
+        name: roles/backend
+
+- name: deploying frontend
+  hosts: frontend
+  become: true
+  tasks:
+    - name: Importing frontend role
+      import_role:
+        name: roles/frontend
+
