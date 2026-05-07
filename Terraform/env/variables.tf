@@ -96,3 +96,8 @@ variable "public_key_path" {
   type    = string
   default = "id_rsa.pub"
 }
+
+variable "bastion_sg" {
+  type    = string
+  default = "sg-bastion123"
+}

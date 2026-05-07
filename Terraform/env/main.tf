@@ -20,7 +20,7 @@ module "frontend_ec2" {
 
   target_group_arns = [module.frontend_alb.target_group_arn]
 
-  public_key_path   = aws_key_pair.ansible_key.key_name
+  
 }
 
 module "backend_ec2" {
@@ -41,7 +41,7 @@ module "backend_ec2" {
 
   target_group_arns = [module.backend_alb.target_group_arn]
 
-  public_key_path   = var.public_key_path
+  
 }
 
 module "frontend_alb" {
@@ -72,4 +72,15 @@ module "backend_alb" {
   port             = 5000
   listener_port    = 80
   health_check_path = "/health"
+}
+
+module "bastion" {
+  source = "../modules/bastion"
+
+  ami            = var.ami
+  instance_type  = "t2.micro"
+
+  public_subnet  = var.public_subnets[0]
+  bastion_sg     = var.frontend_alb_sg
+  key_name       = aws_key_pair.ansible_key.key_name
 }
