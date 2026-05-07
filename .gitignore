@@ -1,0 +1,15 @@
+# Terraform files to ignore
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+terraform.tfvars
+
+# Vault binaries
+vault/
+*.exe
+*.txt
+LICENSE.txt
+vault-*.exe
+vault-*.zip
+vault.exe
