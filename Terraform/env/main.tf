@@ -12,7 +12,7 @@ module "frontend_ec2" {
   key_name = aws_key_pair.ansible_key.key_name
   
   subnets           = var.public_subnets
-  security_groups   = var.frontend_sg
+  security_groups   = [var.frontend_sg]
 
   desired_capacity  = 2
   min_size          = 1
@@ -20,7 +20,7 @@ module "frontend_ec2" {
 
   target_group_arns = [module.frontend_alb.target_group_arn]
 
-  public_key_path   = var.public_key_path
+  public_key_path   = aws_key_pair.ansible_key.key_name
 }
 
 module "backend_ec2" {
@@ -33,7 +33,7 @@ module "backend_ec2" {
   key_name = aws_key_pair.ansible_key.key_name
 
   subnets           = var.private_subnets
-  security_groups   = var.backend_sg
+  security_groups   = [var.backend_sg]
 
   desired_capacity  = 2
   min_size          = 1
