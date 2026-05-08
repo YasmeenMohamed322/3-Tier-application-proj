@@ -121,10 +121,9 @@ resource "aws_route_table_association" "private" {
 }
 ##>>
 
-
-#security group for frontend instances
-resource "aws_security_group" "frontend_sg" {
-  name   = "frontend_sg"
+#security group for ALB frontend
+resource "aws_security_group" "alb_front_sg" {
+  name   = "ALB-FrontendSG"
   vpc_id = aws_vpc.mainVPC.id
 
   ingress {
@@ -132,6 +131,29 @@ resource "aws_security_group" "frontend_sg" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+ tags = {
+    Name = "ALB-FrontendSG"
+  }
+}
+
+#security group for frontend instances
+resource "aws_security_group" "frontend_sg" {
+  name   = "FrontendSG"
+  vpc_id = aws_vpc.mainVPC.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    security_groups = [aws_security_group.alb_front_sg.id]
   }
 
 
@@ -143,13 +165,13 @@ egress {
   }
 
   tags = {
-    Name = "frontendSG"
+    Name = "FrontendSG"
   }
 }
 
-#security group for backend instances
-resource "aws_security_group" "backend_sg" {
-  name   = "backend_sg"
+#security group for ALB Backend
+resource "aws_security_group" "alb_backend_sg" {
+  name   = "ALB_BackendSG"
   vpc_id = aws_vpc.mainVPC.id
 
   ingress {
@@ -157,6 +179,29 @@ resource "aws_security_group" "backend_sg" {
     to_port         = 8080
     protocol        = "tcp"
     security_groups = [aws_security_group.frontend_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "ALB-BackendSG"
+  }
+}
+
+#security group for backend instances
+resource "aws_security_group" "backend_sg" {
+  name   = "BackendSG"
+  vpc_id = aws_vpc.mainVPC.id
+
+  ingress {
+    from_port       = 8080
+    to_port         = 8080
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_backend_sg.id]
   }
 
   ingress {
@@ -174,7 +219,7 @@ resource "aws_security_group" "backend_sg" {
   }
 
   tags = {
-    Name = "backendSG"
+    Name = "BackendSG"
   }
 }
 
@@ -220,5 +265,8 @@ resource "aws_security_group" "bastion_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+ tags = {
+    Name = "BastionSG"
   }
 }
