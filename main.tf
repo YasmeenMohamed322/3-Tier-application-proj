@@ -93,7 +93,7 @@ module "backend_alb" {
 module "bastion" {
   source = "./modules/bastion"
 
-  ami            = var.ami_bastion
+  ami            = var.ami
   instance_type  = "t2.micro"
 
   public_subnet  = module.network.public_subnets[0]
@@ -117,7 +117,7 @@ module "rds" {
 resource "local_file" "ansible_backend_vars" {
   filename = "./backend.yml"
   content  = yamlencode({
-    ansible_ssh_common_args: "-o ProxyCommand=\"ssh -W %h:%p -q ubuntu@${module.bastion.public_ip}\""
+    ansible_ssh_common_args: "-o ProxyCommand=\"ssh -W %h:%p -q ec2-user@${module.bastion.public_ip}\""
     db_host:     module.rds.db_host
     db_user:     module.rds.db_user
     db_password: module.rds.db_password
