@@ -3,7 +3,7 @@ regions:
   - us-east-1
 aws_profile: ansible-proj
 hostnames:
-  # - tag:Name
+  #  - tag:Name
   #- public-ip-address
   #- private-ip-address
   - instance-id

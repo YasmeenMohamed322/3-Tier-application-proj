@@ -5,6 +5,19 @@
     src: /home/ansible/3-Tier-application-proj/App/backend/
     dest: /home/ec2-user/project/backend/
 
+- name: Install PostgreSQL client
+  yum:
+    name: postgresql15
+    state: present
+
+- name: Initialize RDS schema
+  shell: |
+    PGPASSWORD="{{ db_password }}" psql \
+      -h {{ db_host }} \
+      -U {{ db_user }} \
+      -d {{ db_name }} \
+      -f /home/ec2-user/project/backend/dbsql.sql      
+
 - name: copying the docker compose file for backend container
   template:
     src: templates/docker-compose.yml.j2

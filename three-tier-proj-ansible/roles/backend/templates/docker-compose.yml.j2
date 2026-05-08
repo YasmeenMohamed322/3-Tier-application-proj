@@ -6,8 +6,8 @@ services:
     build: ./backend
     ports:
       - "5000:5000"
-    depends_on:
-      - postgres
+#     depends_on:
+#      - postgres
     environment:
       - DB_HOST={{ db_host }}
       - DB_USER={{ db_user }}
@@ -15,20 +15,20 @@ services:
       - DB_NAME={{ db_name }}
       - DB_PORT=5432
 
-  postgres:
-    image: postgres:15
-    container_name: postgres_db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: emergencyDB
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./backend/dbsql.sql:/docker-entrypoint-initdb.d/dbsql.sql
+#  postgres:
+#    image: postgres:15
+#    container_name: postgres_db
+#    restart: always
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: emergencyDB
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#      - ./backend/dbsql.sql:/docker-entrypoint-initdb.d/dbsql.sql
 
-volumes:
-  pgdata:
+#volumes:
+#  pgdata:
 
