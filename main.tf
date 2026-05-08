@@ -111,3 +111,16 @@ module "rds" {
   db_sg_id        = module.network.db_sg
   private_subnets = module.network.private_subnets
 }
+
+
+# This resource automatically creates the backend.yml file locally
+resource "local_file" "ansible_backend_vars" {
+  filename = "./backend.yml"
+  content  = yamlencode({
+    db_host:     module.rds.db_host
+    db_user:     module.rds.db_user
+    db_password: module.rds.db_password
+    db_name:     module.rds.db_name     
+    bastion_ip: module.bastion.public_ip
+  })
+}
