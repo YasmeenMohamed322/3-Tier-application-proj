@@ -11,7 +11,7 @@ variable "AWS_SECRET_ACCESS_KEY" {
 
 variable "vpc_id" {
   type    = string
-  default = "vpc-12345678"
+  
 }
 
 variable "public_subnets" {
