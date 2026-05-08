@@ -93,7 +93,7 @@ module "backend_alb" {
 module "bastion" {
   source = "./modules/bastion"
 
-  ami            = var.ami
+  ami            = var.ami_bastion
   instance_type  = "t2.micro"
 
   public_subnet  = module.network.public_subnets[0]
