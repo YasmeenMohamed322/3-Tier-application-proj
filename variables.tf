@@ -59,6 +59,11 @@ variable "ami" {
   default = "ami-12345678"
 }
 
+variable "ami_bastion" {
+  type    = string
+  default = "ami-12345678"
+}
+
 variable "instance_type" {
   type    = string
   default = "t2.micro"
