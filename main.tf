@@ -66,7 +66,7 @@ module "frontend_alb" {
   internal        = false
 
   subnets         = module.network.public_subnets
-  security_groups = [module.network.frontend_sg]
+  security_groups = [module.network.alb_front_sg]
   vpc_id          = module.network.vpc_id
 
   port             = 80
@@ -81,7 +81,7 @@ module "backend_alb" {
   internal        = true
 
   subnets         = module.network.private_subnets
-  security_groups = [module.network.backend_sg]
+  security_groups = [module.network.alb_backend_sg]
   vpc_id          = module.network.vpc_id
 
   port             = 5000
@@ -97,7 +97,7 @@ module "bastion" {
   instance_type  = "t2.micro"
 
   public_subnet  = module.network.public_subnets[0]
-  bastion_sg     = module.network.frontend_sg
+  bastion_sg     = module.network.bastion_sg
   key_name       = aws_key_pair.ansible_key.key_name
 }
 
