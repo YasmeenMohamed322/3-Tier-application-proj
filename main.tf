@@ -121,6 +121,15 @@ resource "local_file" "ansible_backend_vars" {
     db_user:     module.rds.db_user
     db_password: module.rds.db_password
     db_name:     module.rds.db_name     
-    bastion_ip: module.bastion.public_ip
+    
+  })
+}
+
+# This resource automatically creates the frontend.yml file
+resource "local_file" "ansible_frontend_vars" {
+  filename = "./frontend.yml"
+  content  = yamlencode({
+    # This is the URL the Frontend needs to talk to the Backend
+    backend_api_url: "http://${module.backend_alb.alb_dns_name}/api/patients"
   })
 }
