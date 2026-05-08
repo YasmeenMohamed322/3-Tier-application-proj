@@ -56,12 +56,7 @@ variable "backend_alb_sg" {
 
 variable "ami" {
   type    = string
-  default = "ami-12345678"
-}
-
-variable "ami_bastion" {
-  type    = string
-  default = "ami-12345678"
+  default = "ami-0eb38b817b93460ac"
 }
 
 variable "instance_type" {
