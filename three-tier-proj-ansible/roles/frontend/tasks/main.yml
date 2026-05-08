@@ -8,7 +8,7 @@
 - name: adding nginx.conf to proxy backend requests to backend ALB internally
   template:
     src: templates/nginx.conf.j2
-    dest: /etc/nginx/conf.d/default.conf
+    dest: /home/ec2-user/project/frontend/nginx.conf
       
 - name: copying the docker compose file for frontend container
   copy:
