@@ -1,0 +1,22 @@
+---
+# tasks file for basic-setup
+- name: installing Docker on all instances
+  yum:
+    name: 
+      docker
+    state: present
+    update_cache: yes
+
+- name: Create Docker CLI plugins directory
+  file:
+    path: /usr/local/lib/docker/cli-plugins
+    state: directory
+    mode: '0755'
+
+- name: Install Docker Compose v2 plugin
+  get_url:
+    url: https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-x86_64
+    dest: /usr/local/lib/docker/cli-plugins/docker-compose
+    mode: '0755'
+  notify: Starting Docker
+

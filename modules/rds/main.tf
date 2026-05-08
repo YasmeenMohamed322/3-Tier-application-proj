@@ -10,7 +10,7 @@ resource "aws_db_subnet_group" "this" {
 resource "aws_db_instance" "this" {
   allocated_storage    = 20
   engine               = "postgres"
-  engine_version       = "15.5" 
+#  engine_version       = "15.5" 
   instance_class       = "db.t3.micro"
   
   db_name              = var.db_name     

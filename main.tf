@@ -20,7 +20,7 @@ module "frontend_ec2" {
 
   name              = "frontend"
   ami               = var.ami
-  instance_type     = "t2.micro"
+  instance_type     = "t3.micro"
 
   key_name = aws_key_pair.ansible_key.key_name
   
@@ -41,7 +41,7 @@ module "backend_ec2" {
 
   name              = "backend"
   ami               = var.ami
-  instance_type     = "t2.micro"
+  instance_type     = "t3.micro"
 
   key_name = aws_key_pair.ansible_key.key_name
 
@@ -94,7 +94,7 @@ module "bastion" {
   source = "./modules/bastion"
 
   ami            = var.ami
-  instance_type  = "t2.micro"
+  instance_type  = "t3.micro"
 
   public_subnet  = module.network.public_subnets[0]
   bastion_sg     = module.network.bastion_sg
@@ -115,22 +115,22 @@ module "rds" {
 
 # This resource automatically creates the backend.yml file locally
 resource "local_file" "ansible_backend_vars" {
-  filename = "./backend.yml"
+  filename = "./three-tier-proj-ansible/group_vars/backend.yml"
   content  = yamlencode({
     ansible_ssh_common_args: "-o ProxyCommand=\"ssh -W %h:%p -q ec2-user@${module.bastion.public_ip}\""
-    db_host:     module.rds.db_host
-    db_user:     module.rds.db_user
+    db_host: module.rds.db_host
+    db_user: module.rds.db_user
     db_password: module.rds.db_password
-    db_name:     module.rds.db_name     
+    db_name: module.rds.db_name     
     
   })
 }
 
 # This resource automatically creates the frontend.yml file
 resource "local_file" "ansible_frontend_vars" {
-  filename = "./frontend.yml"
+  filename = "./three-tier-proj-ansible/group_vars/frontend.yml"
   content  = yamlencode({
     # This is the URL the Frontend needs to talk to the Backend
-    backend_api_url: "http://${module.backend_alb.alb_dns_name}/api/patients"
+    alb_dns_name: module.backend_alb.alb_dns_name
   })
 }
