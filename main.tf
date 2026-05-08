@@ -117,6 +117,7 @@ module "rds" {
 resource "local_file" "ansible_backend_vars" {
   filename = "./backend.yml"
   content  = yamlencode({
+    ansible_ssh_common_args: "-o ProxyCommand=\"ssh -W %h:%p -q ubuntu@${module.bastion.public_ip}\""
     db_host:     module.rds.db_host
     db_user:     module.rds.db_user
     db_password: module.rds.db_password
