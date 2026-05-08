@@ -21,10 +21,16 @@ output "nat_eip_ids" {
   value       = aws_eip.nat[*].id
 }
 
+output "alb_front_sg" {
+  value = aws_security_group.alb_front_sg.id
+}
 output "frontend_sg" {
   value = aws_security_group.frontend_sg.id
 }
 
+output "alb_backend_sg" {
+  value = aws_security_group.alb_backend_sg.id
+}
 output "backend_sg" {
   value = aws_security_group.backend_sg.id
 }
