@@ -117,7 +117,7 @@ module "rds" {
 resource "local_file" "ansible_backend_vars" {
   filename = "./three-tier-proj-ansible/group_vars/backend.yml"
   content  = yamlencode({
-    ansible_ssh_common_args: "-o ProxyCommand=\"ssh -W %h:%p -q ec2-user@${module.bastion.public_ip}\""
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -q ec2-user@${module.bastion.public_ip} -o StrictHostKeyChecking=no\""
     db_host: module.rds.db_host
     db_user: module.rds.db_user
     db_password: module.rds.db_password
