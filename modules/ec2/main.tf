@@ -11,22 +11,6 @@ resource "aws_launch_template" "launche_template" {
   lifecycle {
     create_before_destroy = true
   }
-
-  user_data = base64encode(<<-EOF
-              #!/bin/bash
-              # 1. Get the Instance ID from metadata
-              INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
-              
-              # 2. Use a random suffix or the ID to make it unique
-              UNIQUE_NAME="${var.name}-$${INSTANCE_ID: -4}"
-              
-              # 3. Tag the instance itself
-              aws ec2 create-tags --resources $INSTANCE_ID --tags Key=Name,Value=$UNIQUE_NAME --region us-east-1
-              
-              # 4. Set the internal hostname so Ansible sees it clearly
-              hostnamectl set-hostname $UNIQUE_NAME
-              EOF
-  )
 }
 
 resource "aws_autoscaling_group" "ASG" {
