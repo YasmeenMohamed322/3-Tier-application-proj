@@ -1,0 +1,23 @@
+---
+# tasks file for frontend
+- name: copying frontend to instance
+  copy:
+    src: /home/ansible/3-Tier-application-proj/App/frontend/
+    dest: /home/ec2-user/project/frontend/
+
+- name: adding nginx.conf to proxy backend requests to backend ALB internally
+  template:
+    src: templates/nginx.conf.j2
+    dest: /home/ec2-user/project/frontend/nginx.conf
+      
+- name: copying the docker compose file for frontend container
+  copy:
+    src: files/docker-compose.yml
+    dest: /home/ec2-user/project/docker-compose.yml
+
+- name: running the compose file with building images
+  community.docker.docker_compose_v2:
+    project_src: /home/ec2-user/project/
+    build: "always"
+
+

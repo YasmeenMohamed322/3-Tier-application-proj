@@ -1,0 +1,8 @@
+---
+# handlers file for basic-setup
+- name: Starting Docker
+  service:
+    name: docker
+    enabled: true
+    state: started
+

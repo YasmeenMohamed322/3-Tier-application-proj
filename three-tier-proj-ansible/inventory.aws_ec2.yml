@@ -1,0 +1,18 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1
+aws_profile: ansible-proj
+hostnames:
+  #  - tag:Name
+  #- public-ip-address
+  #- private-ip-address
+  - instance-id
+
+groups:
+  frontend: '"frontend" in tags.Name'
+  backend: '"backend" in tags.Name'
+
+compose:
+  ansible_host: public_ip_address | default(private_ip_address)
+  ansible_user: "'ec2-user'"
+

@@ -1,4 +1,4 @@
-const API = "http://backend:5000/api/patients";
+const API = "/api/patients";
 
 async function addPatient() {
   const name = document.getElementById("name").value;

@@ -1,0 +1,5 @@
+"ansible_ssh_common_args": "-o ProxyCommand=\"ssh -W %h:%p -q ec2-user@44.220.89.28\""
+"db_host": "terraform-2026050814015677670000000d.csly6ea2cy2o.us-east-1.rds.amazonaws.com"
+"db_name": "emergencyDB"
+"db_password": "postgres"
+"db_user": "postgres"
