@@ -1,5 +1,5 @@
 # 1. Subnet Group for RDS
-resource "aws_db_subnet_group" "this" {
+resource "aws_db_subnet_group" "subnet_gp" {
   name       = "postgres-subnet-group"
   subnet_ids = var.private_subnets
 

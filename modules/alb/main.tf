@@ -1,5 +1,5 @@
 ##The load balancer 
-resource "aws_lb" "this" {
+resource "aws_lb" "lb" {
   name               = var.name
   internal           = var.internal
   load_balancer_type = "application"
@@ -13,7 +13,7 @@ resource "aws_lb" "this" {
 
 
 ##Target groups
-resource "aws_lb_target_group" "this" {
+resource "aws_lb_target_group" "lb_target_gp" {
   name     = var.name
   port     = var.port
   protocol = "HTTP"
@@ -29,7 +29,7 @@ resource "aws_lb_target_group" "this" {
 
 
 ##Listner 
-resource "aws_lb_listener" "this" {
+resource "aws_lb_listener" "lb_listener" {
   load_balancer_arn = aws_lb.this.arn
   port              = var.listener_port
   protocol          = "HTTP"
