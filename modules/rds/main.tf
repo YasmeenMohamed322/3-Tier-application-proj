@@ -7,7 +7,7 @@ resource "aws_db_subnet_group" "subnet_gp" {
 }
 
 # 2. PostgreSQL Instance
-resource "aws_db_instance" "this" {
+resource "aws_db_instance" "rds" {
   allocated_storage    = 20
   engine               = "postgres"
 #  engine_version       = "15.5" 
@@ -17,7 +17,7 @@ resource "aws_db_instance" "this" {
   username             = var.db_username 
   password             = var.db_password
   
-  db_subnet_group_name   = aws_db_subnet_group.this.name
+  db_subnet_group_name   = aws_db_subnet_group.subnet_gp.name
   vpc_security_group_ids = [var.db_sg_id]
   
   skip_final_snapshot  = true

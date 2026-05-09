@@ -11,6 +11,7 @@ resource "aws_launch_template" "launche_template" {
   lifecycle {
     create_before_destroy = true
   }
+
   user_data = base64encode(<<-EOF
               #!/bin/bash
               # 1. Get the Instance ID from metadata
@@ -36,7 +37,7 @@ resource "aws_autoscaling_group" "ASG" {
   vpc_zone_identifier = var.subnets
 
   launch_template {
-    id      = aws_launch_template.this.id
+    id      = aws_launch_template.launche_template.id
     version = "$Latest"
   }
 
