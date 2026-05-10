@@ -24,7 +24,7 @@ module "frontend_ec2" {
 
   key_name = aws_key_pair.ansible_key.key_name
   
-  subnets           = module.network.public_subnets
+  subnets           = module.network.private_subnets
   security_groups   = [module.network.frontend_sg]
 
   desired_capacity  = 2
