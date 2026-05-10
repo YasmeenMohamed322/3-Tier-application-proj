@@ -22,6 +22,7 @@ resource "aws_db_instance" "rds" {
   
   skip_final_snapshot  = true
   publicly_accessible  = false # Kept private for security
+  multi_az = true
 
   tags = { Name = "MainPostgresDB" }
 }
