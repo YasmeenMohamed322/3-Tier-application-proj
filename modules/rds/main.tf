@@ -22,7 +22,7 @@ resource "aws_db_instance" "rds" {
   
   skip_final_snapshot  = true
   publicly_accessible  = false # Kept private for security
-  multi_az = true
+  multi_az = false    # set multi_az to false if the AWS account is free tier, otherwise set to true to enable the feature
 
   tags = { Name = "MainPostgresDB" }
 }
