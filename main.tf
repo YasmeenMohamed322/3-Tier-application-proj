@@ -131,6 +131,7 @@ resource "local_file" "ansible_frontend_vars" {
   filename = "./three-tier-proj-ansible/group_vars/frontend.yml"
   content  = yamlencode({
     # This is the URL the Frontend needs to talk to the Backend
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -q ec2-user@${module.bastion.public_ip} -o StrictHostKeyChecking=no\""
     alb_dns_name: module.backend_alb.alb_dns_name
   })
 }
