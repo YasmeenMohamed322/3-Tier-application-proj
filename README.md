@@ -110,7 +110,8 @@ project/
 │   └── bastion/
 │
 ├── ansible/
-│   ├── inventory.yaml
+│   ├── group_vars
+│   ├── inventory.aws_ec2.yml
 │   ├── playbook.yaml
 │   └── roles/
 │
@@ -219,6 +220,8 @@ Responsible for:
 
 # Deployment Steps
 
+## Note: Set Hashicorp Vault server with access_key and secret_key secrets in secret/aws path.
+
 ## 1. Initialize Terraform
 
 ```bash
@@ -252,7 +255,7 @@ After infrastructure deployment:
 ## Configure Servers
 
 ```bash
-ansible-playbook playbook.yml
+ansible-playbook -i inventory.aws_ec2.yml playbook.yml
 ```
 
 Ansible is used to:
