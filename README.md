@@ -15,6 +15,7 @@ The deployment includes networking, load balancing, auto scaling, security group
 ---
 
 # Architecture
+![Full Architecture]("Terraform & Ansible proj infra.png")
 
 ## 1. Presentation Layer
 
